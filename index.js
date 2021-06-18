@@ -3,6 +3,7 @@ delete require.cache[__filename]
 const fs = require('fs')
 const path = require('path')
 
+// or simply module.parent.path
 function getParentPath(dir) {
   if (!path.isAbsolute(dir)) {
     const myObj = {}

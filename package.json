@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["require dir"],
+  "keywords": [
+    "require dir"
+  ],
   "author": "0x0a0d",
   "license": "ISC",
   "publishConfig": {
@@ -15,5 +17,13 @@
   "files": [
     "index.js",
     "index.d.ts"
-  ]
+  ],
+  "devDependencies": {
+    "@cylution/eslint-config-nodejs": "^1.0.3",
+    "eslint": "^7.28.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0x0a0d/require-dir"
+  }
 }
