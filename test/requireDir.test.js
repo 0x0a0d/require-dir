@@ -19,6 +19,41 @@ describe('scan dir', () => {
       'c/e/f.service.js',
     ].map(file => path.join(__dirname, 'services', file)))
   })
+  test('multiple suffixes - non recurse', () => {
+    const services = scanDir('services', ['service.js', 'next.js'])
+    expect(services).toEqual([
+      'a.next.js',
+      'a.service.js',
+      'b.service.js',
+    ].map(file => path.join(__dirname, 'services', file)))
+  })
+  test('multiple suffixes - recurse', () => {
+    const services = scanDir('services', ['service.js', 'next.js'], { recurse: true })
+    expect(services).toEqual([
+      'a.next.js',
+      'a.service.js',
+      'b.service.js',
+      'c/d.service.js',
+      'c/e/f.next.js',
+      'c/e/f.service.js',
+    ].map(file => path.join(__dirname, 'services', file)))
+  })
+  test('toObject - non recurse', () => {
+    const services = scanDir('services', 'service.js', { toObject: true })
+    expect(services).toEqual({
+      a: path.join(__dirname, 'services', 'a.service.js'),
+      b: path.join(__dirname, 'services', 'b.service.js'),
+    })
+  })
+  test('recurse', () => {
+    const services = scanDir('services', 'service.js', { recurse: true, toObject: true })
+    expect(services).toEqual({
+      a: path.join(__dirname, 'services', 'a.service.js'),
+      b: path.join(__dirname, 'services', 'b.service.js'),
+      d: path.join(__dirname, 'services', 'c/d.service.js'),
+      f: path.join(__dirname, 'services', 'c/e/f.service.js'),
+    })
+  })
 })
 
 describe('require dir', () => {
@@ -80,6 +115,7 @@ describe('require dir', () => {
   test('keyCamelCase removeSuffixFromKey', () => {
     const services = requireDir('services', 'js', { recurse: false, keyCamelCase: true, removeSuffixFromKey: true })
     expect(services).toEqual({
+      aNext: 'a.next.js',
       aService: 'a.service.js',
       bService: 'b.service.js'
     })
@@ -87,9 +123,11 @@ describe('require dir', () => {
   test('keyCamelCase removeSuffixFromKey recurse', () => {
     const services = requireDir('services', 'js', { recurse: true, keyCamelCase: true, removeSuffixFromKey: true })
     expect(services).toEqual({
+      aNext: 'a.next.js',
       aService: 'a.service.js',
       bService: 'b.service.js',
       dService: 'd.service.js',
+      fNext: 'f.next.js',
       fService: 'f.service.js'
     })
   })

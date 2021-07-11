@@ -89,3 +89,10 @@ options|x|`scanDirOptions`|extra options. See below
 name|type|description
 ---|---|---
 recurse|`boolean`|default: `false`. Lookup all sub directories
+toObject|`ToObjectOptions`|default: `null`. Return object `{fileName: filePath}` instead of `filePath[]`
+
+##### ToObjectOptions
+name|type|description
+---|---|---
+removeSuffixFromKey|`boolean`|default: `true`. Do not include suffix to result object key
+keyCamelCase|`boolean`|default: `true`. Change result object key to `camelCase` instead of `camel-case` or `camel.case`
