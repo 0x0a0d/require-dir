@@ -4,7 +4,7 @@
   "description": "require dir",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "require dir"
@@ -19,11 +19,14 @@
     "index.d.ts"
   ],
   "devDependencies": {
-    "@cylution/eslint-config-nodejs": "^1.0.3",
-    "eslint": "^7.28.0"
+    "@cylution/eslint-config-nodejs": "^1.0.5",
+    "@types/jest": "^26.0.24",
+    "eslint": "^7.28.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "jest": "^27.0.6"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/0x0a0d/require-dir"
+    "url": "https://github.com/cylution-org/require-dir"
   }
 }

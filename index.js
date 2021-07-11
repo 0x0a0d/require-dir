@@ -20,27 +20,58 @@ function getParentPath(dir) {
   }
   return dir
 }
+
 /**
- * require dir
  * @param {string} dir
  * @param {string|string[]} suffixes
- * @returns {Object}
+ * @param {import('./index').RequireDirOptions} [options={}]
  */
-function requireDir(dir, suffixes = '.js') {
+function requireDir(dir, suffixes = '.js', options = {}) {
+  dir = getParentPath(dir)
+  const files = scanDir(dir, suffixes, {
+    recurse: options.recurse
+  })
+  return files.reduce((obj, filePath) => {
+    let fileName = path.parse(filePath).base
+    if (options.removeSuffixFromKey) {
+      fileName = fileName.substr(0, fileName.length - suffixes.length)
+      fileName = fileName.replace(/\.+$/g, '')
+    }
+    if (options.keyCamelCase) {
+      fileName = fileName.replace(/[^a-z0-9]+([a-z0-9])/gi, (m0, m1) => m1.toUpperCase())
+    }
+    try {
+      obj[fileName] = require(filePath)
+    } catch (e) {
+      console.error(e)
+      throw new Error(`Could not require '${filePath}'`)
+    }
+    return obj
+  }, {})
+}
+exports.requireDir = requireDir
+
+/**
+ * @param {string} dir
+ * @param {string|string[]} suffixes
+ * @param {import('./index').ScanDirOptions} [options={}]
+ */
+function scanDir(dir, suffixes = '.js', options = {}) {
   if (!Array.isArray(suffixes)) {
-    suffixes = [suffixes.replace(/^\.+/, '')]
-  } else {
-    suffixes.map(suffix => suffix.replace(/^\.+/, ''))
+    suffixes = [suffixes]
   }
   dir = getParentPath(dir)
   return fs.readdirSync(dir)
-    .filter(file => {
-      return suffixes.some(suffix => file.endsWith(`.${suffix}`))
-    })
-    .reduce((v, file) => {
-      const key = file.substr(0, file.indexOf('.'))
-      v[key] = require(path.resolve(dir, file))
-      return v
-    }, {})
+    .reduce((files, file) => {
+      const filePath = path.resolve(dir, file)
+      if (fs.statSync(filePath).isDirectory()) {
+        if (options.recurse) {
+          files.push(...scanDir(filePath, suffixes, options))
+        }
+      } else if (suffixes.some(suffix => file.endsWith(suffix))) {
+        files.push(filePath)
+      }
+      return files
+    }, [])
 }
-exports.requireDir = requireDir
+exports.scanDir = scanDir
