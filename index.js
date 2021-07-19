@@ -31,6 +31,7 @@ function getParentPath(dir) {
 function requireDir(dir, suffixes = '.js', options = {
   removeSuffixFromKey: true,
   keyCamelCase: true,
+  esModuleImportDefaultFrom: true,
 }) {
   dir = getParentPath(dir)
   const files = scanDir(dir, suffixes, {
@@ -43,6 +44,9 @@ function requireDir(dir, suffixes = '.js', options = {
   return Object.entries(files).reduce((obj, [key, filePath]) => {
     try {
       obj[key] = require(filePath)
+      if (options.esModuleImportDefaultFrom && obj[key].__esModule && obj[key].default !== undefined) {
+        obj[key] = obj[key].default
+      }
     } catch (e) {
       console.error(e)
       throw new Error(`Could not require '${filePath}'`)

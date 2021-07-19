@@ -1,21 +1,31 @@
 type BaseOptions = {
   /**
-   * default is false
+   * check all sub-dirs
+   * @default true
    */
   recurse?: boolean
 }
 type ToObjectOptions = {
   /**
-   * default is true
+   * remove suffix from result object key
+   * @default true
    */
   removeSuffixFromKey?: boolean
   /**
-   * default is true
+   * convert file name to camel case
+   * @example sample-file-name -> sampleFileName
+   * @default true
    */
   keyCamelCase?: boolean
 }
 
-export type RequireDirOptions = BaseOptions & ToObjectOptions
+export type RequireDirOptions = BaseOptions & ToObjectOptions & {
+  /**
+   * detect if module is exported by `export default` and take prop `default`
+   * @default true
+   */
+  esModuleImportDefaultFrom?: boolean
+}
 
 export type ScanDirOptions = BaseOptions
 
