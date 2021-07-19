@@ -28,7 +28,10 @@ function getParentPath(dir) {
  * @param {string|string[]} suffixes
  * @param {import('./index').RequireDirOptions} [options={}]
  */
-function requireDir(dir, suffixes = '.js', options = {}) {
+function requireDir(dir, suffixes = '.js', options = {
+  removeSuffixFromKey: true,
+  keyCamelCase: true,
+}) {
   dir = getParentPath(dir)
   const files = scanDir(dir, suffixes, {
     recurse: options.recurse,
@@ -62,7 +65,11 @@ function scanDir(dir, suffixes = '.js', options = {}) {
   const files = targetScan(dir, suffixes, options.recurse)
 
   if (options.toObject) {
-    const toObject = options.toObject === true ? { keyCamelCase: true, removeSuffixFromKey: true } : options.toObject == null ? {} : options.toObject
+    const toObject = options.toObject === true
+      ? { keyCamelCase: true, removeSuffixFromKey: true }
+      : options.toObject == null
+        ? {}
+        : options.toObject
     return files
       .reduce((obj, [fileName, filePath, suffix]) => {
         fileName = parseFileName(fileName, toObject, suffix)
