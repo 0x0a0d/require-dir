@@ -1,11 +1,23 @@
 module.exports = {
   env: {
-    'jest/globals': true
+    jest: true,
   },
   extends: [
-    '@cylution/nodejs'
+    '@cylution/nodejs',
   ],
-  plugins: [
-    'jest'
+  overrides: [
+    // typescript
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'plugin:@typescript-eslint/recommended'
+      ],
+      rules: {
+        '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+      },
+    },
   ],
 }
