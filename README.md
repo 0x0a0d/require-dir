@@ -73,6 +73,7 @@ name|type|description
 recurse|`boolean`|default: `false`. Lookup all sub directories
 removeSuffixFromKey|`boolean`|default: `true`. Do not include suffix to result object key
 keyCamelCase|`boolean`|default: `true`. Change result object key to `camelCase` instead of `camel-case` or `camel.case`
+esModuleImportDefaultFrom|`boolean`|default: `true`. If module was exported by `export default`, automatically import `.default`
 
 ### scanDir(dir, suffixes, options)
 lookup and return all file's relative paths in `dir`
