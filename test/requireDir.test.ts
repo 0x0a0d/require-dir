@@ -1,6 +1,5 @@
-const path = require('path')
-const { requireDir } = require('../index')
-const { scanDir } = require('../index')
+import path from 'path'
+import { requireDir, scanDir } from '../index'
 
 describe('scan dir', () => {
   test('non recurse', () => {
@@ -54,14 +53,14 @@ describe('require dir', () => {
   it('', () => {
     expect(requireDir('services', 'service.js')).toEqual({
       a: 'a.service.js',
-      b: 'b.service.js'
+      b: 'b.service.js',
     })
     expect(requireDir('services', 'service.js', {
       recurse: false,
       removeSuffixFromKey: false,
     })).toEqual({
       aServiceJs: 'a.service.js',
-      bServiceJs: 'b.service.js'
+      bServiceJs: 'b.service.js',
     })
     expect(requireDir('services', 'service.js', {
       recurse: true,
@@ -69,38 +68,38 @@ describe('require dir', () => {
       a: 'a.service.js',
       b: 'b.service.js',
       d: 'd.service.js',
-      f: 'f.service.js'
+      f: 'f.service.js',
     })
     expect(requireDir('services', 'service.js', {
       recurse: false,
-      removeSuffixFromKey: true
+      removeSuffixFromKey: true,
     })).toEqual({
       a: 'a.service.js',
-      b: 'b.service.js'
+      b: 'b.service.js',
     })
     expect(requireDir('services', 'service.js', {
       recurse: true,
-      removeSuffixFromKey: true
+      removeSuffixFromKey: true,
     })).toEqual({
       a: 'a.service.js',
       b: 'b.service.js',
       d: 'd.service.js',
-      f: 'f.service.js'
+      f: 'f.service.js',
     })
     expect(requireDir('services', 'service.js', { recurse: false, keyCamelCase: true })).toEqual({
       a: 'a.service.js',
-      b: 'b.service.js'
+      b: 'b.service.js',
     })
     expect(requireDir('services', 'service.js', { recurse: true, keyCamelCase: true })).toEqual({
       a: 'a.service.js',
       b: 'b.service.js',
       d: 'd.service.js',
-      f: 'f.service.js'
+      f: 'f.service.js',
     })
     expect(requireDir('services', 'js', { recurse: false, keyCamelCase: true, removeSuffixFromKey: true })).toEqual({
       aNext: 'a.next.js',
       aService: 'a.service.js',
-      bService: 'b.service.js'
+      bService: 'b.service.js',
     })
     expect(requireDir('services', 'js', { recurse: true, keyCamelCase: true, removeSuffixFromKey: true })).toEqual({
       aNext: 'a.next.js',
@@ -108,12 +107,12 @@ describe('require dir', () => {
       bService: 'b.service.js',
       dService: 'd.service.js',
       fNext: 'f.next.js',
-      fService: 'f.service.js'
+      fService: 'f.service.js',
     })
     expect(requireDir('services', 'js', { recurse: false, keyCamelCase: false, removeSuffixFromKey: true })).toEqual({
       'a.next': 'a.next.js',
       'a.service': 'a.service.js',
-      'b.service': 'b.service.js'
+      'b.service': 'b.service.js',
     })
     expect(requireDir('services', 'js', { recurse: true, keyCamelCase: false, removeSuffixFromKey: true })).toEqual({
       'a.next': 'a.next.js',
@@ -121,7 +120,7 @@ describe('require dir', () => {
       'b.service': 'b.service.js',
       'd.service': 'd.service.js',
       'f.next': 'f.next.js',
-      'f.service': 'f.service.js'
+      'f.service': 'f.service.js',
     })
   })
 })

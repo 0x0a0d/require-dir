@@ -63,7 +63,7 @@ lookup and require all files in `dir`
 
 name | required |type | description
 ---|---|---|---
-dir|✅|`string`|target path
+dir|✅|`string` or `string[]`|target path(s)
 suffixes|✅|`string` or `string[]`|acceptable suffix(es)
 options|x|`requireDirOptions`|extra options. See below
 
